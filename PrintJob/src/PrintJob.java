@@ -2,6 +2,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
 public class PrintJob {
 	public static void main(String args[]) {
@@ -14,12 +17,16 @@ public class PrintJob {
 	int TotalPages = 0;
 	int Color = 0;
 	int BlacknWhite = 0;
-	double FinalAmount = 0;
-	double tot;
+	double Finalcost = 0;
+	double JobCost;
 	try {
 
 		br = new BufferedReader(new FileReader(csvFile));
 		int i =1;
+		File file = new File("C:/Users/manan2/Downloads/output.txt");
+		FileOutputStream fos = new FileOutputStream(file);
+		PrintStream ps = new PrintStream(fos);
+		System.setOut(ps);
 		while ((line = br.readLine()) != null) {
 			System.out.println("Job =" + i);
 			System.out.println("Input Data =" + line);
@@ -32,16 +39,16 @@ public class PrintJob {
                     		+ " , black and white pages = " + BlacknWhite  );
 			DoubleSide = data[2].trim();
             if ( DoubleSide.equalsIgnoreCase("true")){
-            tot = ((BlacknWhite*.10)+(Color+.20));
+            	JobCost = ((BlacknWhite*.10)+(Color+.20));
             }
             else{
-            tot = ((BlacknWhite*.15)+(Color*.25));
+            	JobCost = ((BlacknWhite*.15)+(Color*.25));
             }
-            System.out.println("total amount of Job "+i+" = $"+ tot);
-            FinalAmount = FinalAmount+tot;
+            System.out.println("total cost of Job "+i+" = $"+ JobCost+"\r\n");
+            Finalcost = Finalcost+JobCost;
             i++; 
 		}
-		System.out.println("Final amount of all Job = $"+ FinalAmount +"\r\n");
+		System.out.println("Final cost of all Jobs = $"+ Finalcost +"\r\n");
 	} catch (FileNotFoundException e) {
 		e.printStackTrace();
 	} catch (IOException e) {
@@ -55,6 +62,5 @@ public class PrintJob {
 			}
 		}
 	}
-	System.out.println("\r\n Done");
   }
 }
