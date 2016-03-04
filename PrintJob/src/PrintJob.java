@@ -3,8 +3,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-
-
 public class PrintJob {
 	public static void main(String args[]) {
 
@@ -12,32 +10,38 @@ public class PrintJob {
 	BufferedReader br = null;
 	String line = "";
 	String cvsSplitBy = ",";
-	String DS="";
-	int tp = 0;
-	int color = 0;
-	int bnw = 0;
+	String DoubleSide="";
+	int TotalPages = 0;
+	int Color = 0;
+	int BlacknWhite = 0;
+	double FinalAmount = 0;
 	double tot;
 	try {
 
 		br = new BufferedReader(new FileReader(csvFile));
+		int i =1;
 		while ((line = br.readLine()) != null) {
-			System.out.println(" line number =" + line);
+			System.out.println("Job =" + i);
+			System.out.println("Input Data =" + line);
 			String[] data = line.split(cvsSplitBy);
-			tp = Integer.parseInt(data[0].trim()) ;
-			color = Integer.parseInt(data [1].trim());
-			bnw = (tp - color);
-			System.out.println("Total number of pages =" + tp
-                    		+ " , color pages = " + color
-                    		+ " , black and white pages = " + bnw  );
-			DS = data[2].trim();
-            if ( DS.equalsIgnoreCase("true")){
-            tot = ((bnw*.10)+(color+.20));
+			TotalPages = Integer.parseInt(data[0].trim()) ;
+			Color = Integer.parseInt(data [1].trim());
+			BlacknWhite = (TotalPages - Color);
+			System.out.println("Total number of pages =" + TotalPages
+                    		+ " , color pages = " + Color
+                    		+ " , black and white pages = " + BlacknWhite  );
+			DoubleSide = data[2].trim();
+            if ( DoubleSide.equalsIgnoreCase("true")){
+            tot = ((BlacknWhite*.10)+(Color+.20));
             }
             else{
-            tot = ((bnw*.15)+(color*.25));
+            tot = ((BlacknWhite*.15)+(Color*.25));
             }
-            System.out.println("total ammount = $"+ tot);
+            System.out.println("total amount of Job "+i+" = $"+ tot);
+            FinalAmount = FinalAmount+tot;
+            i++; 
 		}
+		System.out.println("Final amount of all Job = $"+ FinalAmount +"\r\n");
 	} catch (FileNotFoundException e) {
 		e.printStackTrace();
 	} catch (IOException e) {
@@ -45,17 +49,12 @@ public class PrintJob {
 	} finally {
 		if (br != null) {
 			try {
-
-				tot = 0;
-				color=0;
-				tp =0;
-				bnw =0;
 				br.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	System.out.println("Done");
+	System.out.println("\r\n Done");
   }
 }
