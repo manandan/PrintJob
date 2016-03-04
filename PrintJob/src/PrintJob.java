@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class PrintJob {
 	public static void main(String args[]) {
@@ -22,13 +24,15 @@ public class PrintJob {
 	try {
 
 		br = new BufferedReader(new FileReader(csvFile));
-		int i =1;
-		File file = new File("C:/Users/manan2/Downloads/output.txt");
+		int i =1; 
+		Date date = new Date() ;
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss") ;
+	    File file = new File("C:/Users/manan2/Downloads/"+dateFormat.format(date) + "_Output.txt") ;
 		FileOutputStream fos = new FileOutputStream(file);
 		PrintStream ps = new PrintStream(fos);
 		System.setOut(ps);
 		while ((line = br.readLine()) != null) {
-			System.out.println("Job =" + i);
+			System.out.println("\r\nJob =" + i);
 			System.out.println("Input Data =" + line);
 			String[] data = line.split(cvsSplitBy);
 			TotalPages = Integer.parseInt(data[0].trim()) ;
